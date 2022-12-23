@@ -1,0 +1,328 @@
+[
+    {
+        "id": "03170500fe097b62",
+        "type": "tab",
+        "label": "Backend"
+    },
+    {
+        "id": "9ed84392e65a0cb4",
+        "type": "http in",
+        "z": "03170500fe097b62",
+        "name": "Insert From node",
+        "url": "/api/backend/insert",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 320,
+        "wires": [
+            [
+                "749a6a2aaa19f6bb"
+            ]
+        ]
+    },
+    {
+        "id": "7db4323616d0b14c",
+        "type": "inject",
+        "z": "03170500fe097b62",
+        "name": "Create Database",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "CREATE TABLE \"Sensors\" (     \"id\"    INTEGER NOT NULL UNIQUE,     \"node_code\" TEXT NOT NULL,     \"gateway_code\"  TEXT NOT NULL,     \"sensor_code\"   TEXT NOT NULL,     \"value\" INTEGER NOT NULL,     \"timestamp\" INTEGER NOT NULL,     PRIMARY KEY(\"id\") );",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 120,
+        "wires": [
+            [
+                "935ec3e2257e3288"
+            ]
+        ]
+    },
+    {
+        "id": "7fab1cfad9de8e33",
+        "type": "debug",
+        "z": "03170500fe097b62",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "3a73633765d0a291",
+        "type": "inject",
+        "z": "03170500fe097b62",
+        "name": "Empty Database",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "DELETE FROM \"main\".\"Sensors\"",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 180,
+        "wires": [
+            [
+                "99c6302165147dd6"
+            ]
+        ]
+    },
+    {
+        "id": "5d1837b0ef44acf4",
+        "type": "debug",
+        "z": "03170500fe097b62",
+        "name": "debug 10",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "935ec3e2257e3288",
+        "type": "sqlite",
+        "z": "03170500fe097b62",
+        "mydb": "4b73790fdb402582",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "backend_db",
+        "x": 370,
+        "y": 120,
+        "wires": [
+            [
+                "7fab1cfad9de8e33"
+            ]
+        ]
+    },
+    {
+        "id": "99c6302165147dd6",
+        "type": "sqlite",
+        "z": "03170500fe097b62",
+        "mydb": "4b73790fdb402582",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "backend_db",
+        "x": 370,
+        "y": 180,
+        "wires": [
+            [
+                "5d1837b0ef44acf4"
+            ]
+        ]
+    },
+    {
+        "id": "1270bac8964c9939",
+        "type": "http response",
+        "z": "03170500fe097b62",
+        "name": "Result",
+        "statusCode": "",
+        "headers": {},
+        "x": 930,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "e9b5e30f7992fbb6",
+        "type": "change",
+        "z": "03170500fe097b62",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "statusCode",
+                "pt": "msg",
+                "to": "200",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 700,
+        "y": 320,
+        "wires": [
+            [
+                "1270bac8964c9939"
+            ]
+        ]
+    },
+    {
+        "id": "1df8fdce9cbeb2f3",
+        "type": "sqlite",
+        "z": "03170500fe097b62",
+        "mydb": "4b73790fdb402582",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "SELECT",
+        "x": 480,
+        "y": 640,
+        "wires": [
+            [
+                "a9cda54e3e1f6e23"
+            ]
+        ]
+    },
+    {
+        "id": "4ceb8f996ddc2287",
+        "type": "inject",
+        "z": "03170500fe097b62",
+        "name": "Start select",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 120,
+        "y": 640,
+        "wires": [
+            [
+                "ef7cf3d59389896a"
+            ]
+        ]
+    },
+    {
+        "id": "a9cda54e3e1f6e23",
+        "type": "debug",
+        "z": "03170500fe097b62",
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "ef7cf3d59389896a",
+        "type": "function",
+        "z": "03170500fe097b62",
+        "name": "params",
+        "func": "msg.topic = 'SELECT * FROM \"main\".\"Sensors\" WHERE \"id\"=1;'\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 640,
+        "wires": [
+            [
+                "1df8fdce9cbeb2f3"
+            ]
+        ]
+    },
+    {
+        "id": "2a118c0439724871",
+        "type": "comment",
+        "z": "03170500fe097b62",
+        "name": "Setup",
+        "info": "# Setup scripts",
+        "x": 90,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "d8b8b7b177a40640",
+        "type": "comment",
+        "z": "03170500fe097b62",
+        "name": "API",
+        "info": "# API for gateway \nInserting data",
+        "x": 90,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "3fe20c62d7455c2b",
+        "type": "comment",
+        "z": "03170500fe097b62",
+        "name": "Example select",
+        "info": "# Select data example\nSelecting data",
+        "x": 100,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "ad8c592ef7146e2a",
+        "type": "sqlite",
+        "z": "03170500fe097b62",
+        "mydb": "4b73790fdb402582",
+        "sqlquery": "prepared",
+        "sql": "INSERT INTO \"main\".\"Sensors\"(\"id\",\"node_code\",\"gateway_code\",\"sensor_code\",\"value\",\"timestamp\") VALUES ($id, $node_code, $gateway_code, $sensor_code, $value, $timestamp);",
+        "name": "Insert",
+        "x": 510,
+        "y": 320,
+        "wires": [
+            [
+                "e9b5e30f7992fbb6"
+            ]
+        ]
+    },
+    {
+        "id": "749a6a2aaa19f6bb",
+        "type": "function",
+        "z": "03170500fe097b62",
+        "name": "params",
+        "func": "msg.params = {\n    $id: msg.payload.id,\n    $node_code: msg.payload.node_code,\n    $gateway_code: msg.payload.gateway_code,\n    $sensor_code: msg.payload.sensor_code,\n    $value: msg.payload.value,\n    $timestamp: msg.payload.timestamp,\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 320,
+        "wires": [
+            [
+                "ad8c592ef7146e2a"
+            ]
+        ]
+    },
+    {
+        "id": "4b73790fdb402582",
+        "type": "sqlitedb",
+        "db": "/home/pinguin/backend_db",
+        "mode": "RWC"
+    }
+]
